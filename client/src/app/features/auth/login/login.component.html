@@ -1,0 +1,106 @@
+<section *ngIf="!isLoggedIn" class="bg-gray-50 dark:bg-gray-900">
+    <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+        <div
+            class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+            <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+                <div class="text-center">
+                    <h1 class="block text-2xl font-bold text-gray-800 dark:text-white text-[2rem]">Login</h1>
+                </div>
+                <form class="space-y-4 md:space-y-6" [formGroup]="rForm" (ngSubmit)="onSubmit()">
+                    <!-- Email -->
+                    <div>
+                        <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            Email address
+                        </label>
+                        <input type="email" name="email" id="email" formControlName="email"
+                            class="bg-gray-50 border font-bold border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            required>
+                        <div style="color: red; font-weight: 500;"
+                            *ngIf="rForm.get('email')?.hasError('required') && rForm.get('email')?.touched">
+                            email is required!
+                        </div>
+                    </div>
+                    <!-- Password -->
+                    <div>
+                        <label for="password"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+                        <input type="password" name="password" formControlName="password" id="password"
+                            class="bg-gray-50 border font-bold border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            required>
+                        <div style="color: red; font-weight: 500;"
+                            *ngIf="rForm.get('password')?.hasError('required') && rForm.get('password')?.touched">
+                            password is required!
+                        </div>
+                    </div>
+                    <!-- Error Message -->
+                    <div *ngIf="isLoginFailed && rForm.untouched" style="color: red; font-weight: 500">
+                        {{loginError | lowercase}}
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-start">
+                            <div class="flex items-center h-5">
+                                <input id="remember" aria-describedby="remember" type="checkbox"
+                                    class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
+                                    required="">
+                            </div>
+                            <div class="ml-3 text-sm">
+                                <label for="remember" class="text-gray-500 dark:text-gray-300">Remember me</label>
+                            </div>
+                        </div>
+                        <!-- Button for Frogot Password -->
+                        <a (click)="openModal()"
+                            class="text-sm font-medium text-blue-600 hover:underline cursor-pointer dark:text-blue-500">
+                            Forgot password?</a>
+                    </div>
+                    <!-- Login Button -->
+                    <button
+                        class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Login</button>
+                </form>
+                <p class="text-sm font-light text-gray-500 dark:text-gray-400 text-[16px]">
+                    Don’t have an account yet? <a routerLink="/signup"
+                        class="font-medium text-blue-600 hover:underline dark:text-blue-500">create account</a>
+                </p>
+                <div class="relative">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-gray-300"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm">
+                        <span class="px-2 bg-gray-100 text-dark-500">
+                            Or Login with
+                        </span>
+                    </div>
+                </div>
+                <div class="flex justify-center gap-16 w-full">
+                    <div class="login_with w-10 bg-white" title="login with google" (click)="loginWithGoogle()"
+                        style="border-radius: 10px; cursor: pointer;">
+                        <img src="assets/icons/google.png" class="w-full" alt="">
+                    </div>
+                    <div class="login_with w-10 bg-white" title="login with facebook" (click)="loginWithFacebook()"
+                        style="border-radius: 10px; cursor: pointer;">
+                        <img src="assets/icons/facebook.png" class="w-full" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- processing -->
+<app-processing *ngIf="isProcessing"></app-processing>
+
+<!-- modal for send request for forgot password -->
+<div *ngIf="showForgotPasswordModal"
+    class="modal fixed inset-0 bg-black bg-opacity-60 flex h-fit items-center justify-center z-[115] min-h-[100dvh] overflow-y-auto hidden_scroll bg-transparent">
+    <div class="fixed h-full w-full top-0 left-0 bg-zinc-600 bg-opacity-50 cursor-pointer z-[-1]"
+        (click)="closeModal(true)"></div>
+    <div class="card w-full max-w-[450px] bg-white rounded-lg shadow-lg relative h-fit">
+        <button (click)="closeModal(true)"
+            class="absolute top-0 right-3 text-[1.6rem] text-gray-400 hover:text-gray-600">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div class="modal-content">
+            <app-forgot-password (panelClosed)="closeModal($event)"></app-forgot-password>
+        </div>
+    </div>
+</div>

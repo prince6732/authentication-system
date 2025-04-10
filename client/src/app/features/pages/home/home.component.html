@@ -1,0 +1,35 @@
+<!-- UI for Unauthenticated Users -->
+<div *ngIf="!isLoggedIn" class="text-center p-10">
+    <h1 class="text-4xl font-bold mb-4">Welcome to Our Application</h1>
+    <p class="text-lg text-gray-600 mb-6">
+        Discover amazing features and connect with a great community. Sign in to access exclusive content.
+    </p>
+
+    <button routerLink="/login"
+        class="px-6 py-2 m-5 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+        Login
+    </button>
+
+    <p class="text-gray-500 mt-4">
+        Don't have an account?
+        <a routerLink="/signup" class="text-blue-600 font-semibold cursor-pointer hover:underline">Sign Up</a>
+    </p>
+</div>
+
+<!-- UI for Authenticated Users -->
+<div *ngIf="isLoggedIn" class="text-center p-10">
+    <h1 class="text-4xl font-bold mb-4">Welcome Back!</h1>
+    <p class="text-lg text-gray-600 mb-6">
+        Enjoy personalized content and interact with the community.
+    </p>
+
+    <button routerLink="/dashboard"
+        class="px-6 py-2 m-5 bg-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
+        Go to Dashboard
+    </button>
+
+    <button (click)="logout()"
+        class="px-6 py-2 m-5 bg-red-600 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50">
+        Logout
+    </button>
+</div>

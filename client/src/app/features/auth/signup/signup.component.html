@@ -1,0 +1,116 @@
+<section *ngIf="!isSignUp" class="bg-gray-50 dark:bg-gray-900 min-h-screen flex items-center justify-center py-8">
+    <div class="w-full max-w-md bg-white rounded-lg shadow-lg dark:border dark:border-gray-700 dark:bg-gray-800">
+        <div class="p-8 space-y-6">
+            <div class="text-center">
+                <h1 class="text-4xl font-extrabold text-gray-800 dark:text-white mb-4">
+                    Create Account
+                </h1>
+            </div>
+            <form class="space-y-6" [formGroup]="rForm" (ngSubmit)="onSubmit()">
+                <!-- Username -->
+                <div>
+                    <label for="username" class="block text-sm font-semibold text-gray-900 dark:text-gray-300">
+                        Username
+                    </label>
+                    <input type="text" name="username" id="username" formControlName="username"
+                        class="w-full font-bold mt-1 px-4 py-2 text-gray-900 bg-gray-100 border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        [value]="rForm.value.username | titlecase" required />
+                    <div *ngIf="rForm.get('username')?.hasError('required') && rForm.get('username')?.touched"
+                        style="color: red; font-weight: 500;">
+                        username is required!
+                    </div>
+                    <div style="color: red; font-weight: 500;" *ngIf="rForm?.get('username')?.hasError('maxlength')">
+                        username should be less than 20 characters!
+                    </div>
+                    <div style="color: red; font-weight: 500;" *ngIf="rForm?.get('username')?.hasError('minlength')">
+                        username must be more than 2 characters!
+                    </div>
+                </div>
+
+                <!-- Email -->
+                <div>
+                    <label for="email" class="block text-sm font-semibold text-gray-900 dark:text-gray-300">
+                        Email address
+                    </label>
+                    <input type="email" name="email" id="email" formControlName="email"
+                        class="w-full font-bold mt-1 px-4 py-2 text-gray-900 bg-gray-100 border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        required />
+                    <div *ngIf="rForm.get('email')?.hasError('required') && rForm.get('email')?.touched"
+                        style="color: red; font-weight: 500;">
+                        email is required!
+                    </div>
+                    <div *ngIf="rForm.get('email')?.hasError('email')" style="color: red; font-weight: 500;">
+                        email must be a valid email address!
+                    </div>
+                </div>
+
+                <!-- Password -->
+                <div>
+                    <label for="password" class="block text-sm font-semibold text-gray-900 dark:text-gray-300">
+                        Password
+                    </label>
+                    <input type="password" name="password" id="password" formControlName="password"
+                        class="w-full mt-1 font-bold px-4 py-2 text-gray-900 bg-gray-100 border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        required />
+                    <div *ngIf="rForm.get('password')?.hasError('required') && rForm.get('password')?.touched"
+                        style="color: red; font-weight: 500;">
+                        password is required!
+                    </div>
+                    <div style="color: red; font-weight: 500;" *ngIf="rForm?.get('password')?.hasError('maxlength')">
+                        password should be less than 20 characters!
+                    </div>
+                    <div style="color: red; font-weight: 500;" *ngIf="rForm?.get('password')?.hasError('minlength')">
+                        password must be more than 6 characters!
+                    </div>
+                </div>
+
+                <!-- Confirm Password -->
+                <div>
+                    <label for="confirmPassword" class="block text-sm font-semibold text-gray-900 dark:text-gray-300">
+                        Confirm password
+                    </label>
+                    <input type="password" name="confirmPassword" id="confirmPassword" formControlName="confirmPassword"
+                        class="w-full mt-1 font-bold px-4 py-2 text-gray-900 bg-gray-100 border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        required />
+                    <div *ngIf="rForm.get('confirmPassword')?.hasError('required') && rForm.get('confirmPassword')?.touched"
+                        style="color: red; font-weight: 500;">
+                        confirm password is required!
+                    </div>
+                    <div *ngIf="rForm?.hasError('mismatch') && rForm?.get('confirmPassword')?.touched"
+                        style="color: red; font-weight: 500;">
+                        passwords do not match!
+                    </div>
+                </div>
+                <div *ngIf="isSignUpFailed && rForm.untouched" style="color: red; font-weight: 500">
+                    {{signupError | lowercase}}
+                </div>
+
+                <!-- Remember Me -->
+                <div class="flex items-center space-x-3">
+                    <input id="remember" type="checkbox"
+                        class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" />
+                    <label for="remember" class="text-sm font-medium text-gray-500 dark:text-gray-300">
+                        Remember me
+                    </label>
+                </div>
+
+                <!-- Submit Button -->
+                <button
+                    class="w-full py-2.5 text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg transition-all">
+                    Sign Up
+                </button>
+
+                <!-- Login Redirect -->
+                <p class="text-center text-sm font-light text-gray-500 dark:text-gray-400">
+                    Already have an account?
+                    <a routerLink="/login" class="font-medium text-blue-600 hover:underline">
+                        Login
+                    </a>
+                </p>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- processing -->
+<app-processing *ngIf="isProcessing"></app-processing>

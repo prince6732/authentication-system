@@ -1,0 +1,25 @@
+@media (min-width: 1024px) {
+    .changeSize .sidebar_menu {
+        @apply w-[80px];
+    }
+
+    .changeSize .main_content {
+        @apply w-[calc(100%_-_80px)];
+    }
+}
+
+
+.changeSize {
+    @apply relative
+}
+
+@media (max-width:1023.98px) {
+
+    main .sidebar_menu {
+        @apply z-[1199] fixed top-0 start-[-300px] h-screen
+    }
+
+    .changeSize .sidebar_menu {
+        @apply start-0
+    }
+}
